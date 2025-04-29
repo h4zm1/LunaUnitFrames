@@ -206,6 +206,7 @@ LunaUF.defaults = {
 					icons = {
 						raidTarget = { enabled = true, anchorPoint = "CENTER", size = 20, x = 0, y = 0 },
 						class = { enabled = true, anchorPoint = "BOTTOMLEFT", size = 16, x = 0, y = 0 },
+						elite2 = { enabled = true, anchorPoint = "LEFT", size = 74, x = 14, y = 0 },
 						masterLoot = { enabled = true, anchorPoint = "TOPLEFT", size = 12, x = 16, y = 0 },
 						leader = { enabled = true, anchorPoint = "TOPLEFT", size = 14, x = 2, y = 0 },
 						pvp = { enabled = true, anchorPoint = "TOPRIGHT", size = 30, x = 5, y = -25 },
@@ -463,7 +464,7 @@ LunaUF.defaults = {
 					enabled = true,
 					icons = {
 						raidTarget = { enabled = true, anchorPoint = "CENTER", size = 20, x = 0, y = 0 },
-						elite = { enabled = false, kos = false, anchorPoint = "RIGHT", size = 74, x = -14, y = 0 },
+						elite = { enabled = false, anchorPoint = "RIGHT", size = 74, x = -14, y = 0 },
 						class = { enabled = true, anchorPoint = "BOTTOMRIGHT", size = 16, x = 0, y = 0 },
 						masterLoot = { enabled = true, anchorPoint = "TOPRIGHT", size = 12, x = -16, y = 0 },
 						leader = { enabled = true, anchorPoint = "TOPRIGHT", size = 14, x = -2, y = 0 },
@@ -1032,11 +1033,13 @@ LunaUF.defaults = {
 							[1] = "",
 							[2] = "",
 							[3] = "",
+							[4] = "",
 						},
 						colors = {
 							[1] = {r=1,g=0,b=0},
 							[2] = {r=0,g=1,b=0},
 							[3] = {r=0,g=0,b=1},
+							[4] = {r=0,g=0,b=1},
 						},
 					},
 					debuffs = {
@@ -1044,11 +1047,13 @@ LunaUF.defaults = {
 							[1] = "",
 							[2] = "",
 							[3] = "",
+							[4] = "",
 						},
 						colors = {
 							[1] = {r=1,g=0,b=0},
 							[2] = {r=0,g=1,b=0},
 							[3] = {r=0,g=0,b=1},
+							[4] = {r=0,g=0,b=1},
 						},
 					},
 				},

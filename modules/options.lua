@@ -881,18 +881,23 @@ function LunaUF:LoadOptions()
 	LunaOptionsFrame.pages[page].firstbuffinvert:SetChecked(LunaUF.db.profile.units.raid.squares.invertfirstbuff)
 	LunaOptionsFrame.pages[page].secondbuffinvert:SetChecked(LunaUF.db.profile.units.raid.squares.invertsecondbuff)
 	LunaOptionsFrame.pages[page].thirdbuffinvert:SetChecked(LunaUF.db.profile.units.raid.squares.invertthirdbuff)
+	LunaOptionsFrame.pages[page].fourthbuffinvert:SetChecked(LunaUF.db.profile.units.raid.squares.invertfourthbuff)
 	LunaOptionsFrame.pages[page].firstbuff:SetText(LunaUF.db.profile.units.raid.squares.buffs.names[1])
 	LunaOptionsFrame.pages[page].firstbuffcolor.load(LunaOptionsFrame.pages[page].firstbuffcolor,LunaUF.db.profile.units.raid.squares.buffs.colors[1])
 	LunaOptionsFrame.pages[page].secondbuff:SetText(LunaUF.db.profile.units.raid.squares.buffs.names[2])
 	LunaOptionsFrame.pages[page].secondbuffcolor.load(LunaOptionsFrame.pages[page].secondbuffcolor,LunaUF.db.profile.units.raid.squares.buffs.colors[2])
 	LunaOptionsFrame.pages[page].thirdbuff:SetText(LunaUF.db.profile.units.raid.squares.buffs.names[3])
 	LunaOptionsFrame.pages[page].thirdbuffcolor.load(LunaOptionsFrame.pages[page].thirdbuffcolor,LunaUF.db.profile.units.raid.squares.buffs.colors[3])
+	LunaOptionsFrame.pages[page].fourthbuff:SetText(LunaUF.db.profile.units.raid.squares.buffs.names[4])
+	LunaOptionsFrame.pages[page].fourthbuffcolor.load(LunaOptionsFrame.pages[page].fourthbuffcolor,LunaUF.db.profile.units.raid.squares.buffs.colors[4])
 	LunaOptionsFrame.pages[page].firstdebuff:SetText(LunaUF.db.profile.units.raid.squares.debuffs.names[1])
 	LunaOptionsFrame.pages[page].firstdebuffcolor.load(LunaOptionsFrame.pages[page].firstdebuffcolor,LunaUF.db.profile.units.raid.squares.debuffs.colors[1])
 	LunaOptionsFrame.pages[page].seconddebuff:SetText(LunaUF.db.profile.units.raid.squares.debuffs.names[2])
 	LunaOptionsFrame.pages[page].seconddebuffcolor.load(LunaOptionsFrame.pages[page].seconddebuffcolor,LunaUF.db.profile.units.raid.squares.debuffs.colors[2])
 	LunaOptionsFrame.pages[page].thirddebuff:SetText(LunaUF.db.profile.units.raid.squares.debuffs.names[3])
 	LunaOptionsFrame.pages[page].thirddebuffcolor.load(LunaOptionsFrame.pages[page].thirddebuffcolor,LunaUF.db.profile.units.raid.squares.debuffs.colors[3])
+	LunaOptionsFrame.pages[page].fourthdebuff:SetText(LunaUF.db.profile.units.raid.squares.debuffs.names[4])
+	LunaOptionsFrame.pages[page].fourthdebuffcolor.load(LunaOptionsFrame.pages[page].fourthdebuffcolor,LunaUF.db.profile.units.raid.squares.debuffs.colors[4])
 	LunaOptionsFrame.pages[page].showparty:SetChecked(LunaUF.db.profile.units.raid.showparty)
 	LunaOptionsFrame.pages[page].showalways:SetChecked(LunaUF.db.profile.units.raid.showalways)
 	LunaOptionsFrame.pages[page].raidpadding:SetValue(LunaUF.db.profile.units.raid.padding)
@@ -4014,9 +4019,132 @@ function LunaUF:CreateOptionsMenu()
 		end
 	end)
 	getglobal("ThirdBuffInvertText"):SetText(L["Invert display"])
+	
+	
+	
+	
+	LunaOptionsFrame.pages[page].fourthbuff = CreateFrame("Editbox", "FourthBuffInput", LunaOptionsFrame.pages[page], "InputBoxTemplate")
+	LunaOptionsFrame.pages[page].fourthbuff:SetHeight(20)
+	LunaOptionsFrame.pages[page].fourthbuff:SetWidth(200)
+	LunaOptionsFrame.pages[page].fourthbuff:SetAutoFocus(nil)
+	LunaOptionsFrame.pages[page].fourthbuff:SetPoint("TOPLEFT", LunaOptionsFrame.pages[page].thirdbuff, "BOTTOMLEFT", 0, -10)
+	LunaOptionsFrame.pages[page].fourthbuff:SetScript("OnTextChanged", function()
+		LunaUF.db.profile.units.raid.squares.buffs.names[4] = this:GetText()
+		for _,frame in pairs(LunaUF.Units.frameList) do
+			if frame.unitGroup == "raid" then
+				LunaUF.Units.FullUpdate(frame)
+			end
+		end
+	end)
+	LunaOptionsFrame.pages[page].fourthbuff:SetScript("OnEscapePressed", Exit)
+	LunaOptionsFrame.pages[page].fourthbuff:SetScript("OnEnterPressed", Exit)
+
+	LunaOptionsFrame.pages[page].fourthbuffcolor = CreateColorSelect(LunaOptionsFrame.pages[page], LunaUF.db.profile.units.raid.squares.buffs.colors[4])
+	LunaOptionsFrame.pages[page].fourthbuffcolor:SetPoint("LEFT", LunaOptionsFrame.pages[page].fourthbuff, "RIGHT", 10, 0)
+	LunaOptionsFrame.pages[page].fourthbuffcolor:SetHeight(19)
+	LunaOptionsFrame.pages[page].fourthbuffcolor:SetWidth(19)
+	LunaOptionsFrame.pages[page].fourthbuffcolor.text:SetText(L["Buffcolor"])
+
+	LunaOptionsFrame.pages[page].fourthbuffinvert = CreateFrame("CheckButton", "FourthBuffInvert", LunaOptionsFrame.pages[page], "UICheckButtonTemplate")
+	LunaOptionsFrame.pages[page].fourthbuffinvert:SetPoint("LEFT", LunaOptionsFrame.pages[page].fourthbuffcolor, "RIGHT", 70, 0)
+	LunaOptionsFrame.pages[page].fourthbuffinvert:SetHeight(15)
+	LunaOptionsFrame.pages[page].fourthbuffinvert:SetWidth(15)
+	LunaOptionsFrame.pages[page].fourthbuffinvert:SetScript("OnClick", function()
+		LunaUF.db.profile.units.raid.squares.invertfourthbuff = not LunaUF.db.profile.units.raid.squares.invertfourthbuff
+		for _,frame in pairs(LunaUF.Units.frameList) do
+			if frame.unitGroup == "raid" then
+				LunaUF.Units.FullUpdate(frame)
+			end
+		end
+	end)
+	getglobal("FourthBuffInvertText"):SetText(L["Invert display"])
+	
+	
+	
+	
+	LunaOptionsFrame.pages[page].fifthbuff = CreateFrame("Editbox", "FifthBuffInput", LunaOptionsFrame.pages[page], "InputBoxTemplate")
+	LunaOptionsFrame.pages[page].fifthbuff:SetHeight(20)
+	LunaOptionsFrame.pages[page].fifthbuff:SetWidth(200)
+	LunaOptionsFrame.pages[page].fifthbuff:SetAutoFocus(nil)
+	LunaOptionsFrame.pages[page].fifthbuff:SetPoint("TOPLEFT", LunaOptionsFrame.pages[page].fourthbuff, "BOTTOMLEFT", 0, -10)
+	LunaOptionsFrame.pages[page].fifthbuff:SetScript("OnTextChanged", function()
+		LunaUF.db.profile.units.raid.squares.buffs.names[5] = this:GetText()
+		for _,frame in pairs(LunaUF.Units.frameList) do
+			if frame.unitGroup == "raid" then
+				LunaUF.Units.FullUpdate(frame)
+			end
+		end
+	end)
+	LunaOptionsFrame.pages[page].fifthbuff:SetScript("OnEscapePressed", Exit)
+	LunaOptionsFrame.pages[page].fifthbuff:SetScript("OnEnterPressed", Exit)
+
+	LunaOptionsFrame.pages[page].fifthbuffcolor = CreateColorSelect(LunaOptionsFrame.pages[page], LunaUF.db.profile.units.raid.squares.buffs.colors[5])
+	LunaOptionsFrame.pages[page].fifthbuffcolor:SetPoint("LEFT", LunaOptionsFrame.pages[page].fifthbuff, "RIGHT", 10, 0)
+	LunaOptionsFrame.pages[page].fifthbuffcolor:SetHeight(19)
+	LunaOptionsFrame.pages[page].fifthbuffcolor:SetWidth(19)
+	LunaOptionsFrame.pages[page].fifthbuffcolor.text:SetText(L["Buffcolor"])
+
+	LunaOptionsFrame.pages[page].fifthbuffinvert = CreateFrame("CheckButton", "FifthBuffInvert", LunaOptionsFrame.pages[page], "UICheckButtonTemplate")
+	LunaOptionsFrame.pages[page].fifthbuffinvert:SetPoint("LEFT", LunaOptionsFrame.pages[page].fifthbuffcolor, "RIGHT", 70, 0)
+	LunaOptionsFrame.pages[page].fifthbuffinvert:SetHeight(15)
+	LunaOptionsFrame.pages[page].fifthbuffinvert:SetWidth(15)
+	LunaOptionsFrame.pages[page].fifthbuffinvert:SetScript("OnClick", function()
+		LunaUF.db.profile.units.raid.squares.invertfifthbuff = not LunaUF.db.profile.units.raid.squares.invertfifthbuff
+		for _,frame in pairs(LunaUF.Units.frameList) do
+			if frame.unitGroup == "raid" then
+				LunaUF.Units.FullUpdate(frame)
+			end
+		end
+	end)
+	getglobal("FifthBuffInvertText"):SetText(L["Invert display"])
+	
+	
+	
+	
+	LunaOptionsFrame.pages[page].sixthbuff = CreateFrame("Editbox", "FifthBuffInput", LunaOptionsFrame.pages[page], "InputBoxTemplate")
+	LunaOptionsFrame.pages[page].sixthbuff:SetHeight(20)
+	LunaOptionsFrame.pages[page].sixthbuff:SetWidth(200)
+	LunaOptionsFrame.pages[page].sixthbuff:SetAutoFocus(nil)
+	LunaOptionsFrame.pages[page].sixthbuff:SetPoint("TOPLEFT", LunaOptionsFrame.pages[page].fifthbuff, "BOTTOMLEFT", 0, -10)
+	LunaOptionsFrame.pages[page].sixthbuff:SetScript("OnTextChanged", function()
+		LunaUF.db.profile.units.raid.squares.buffs.names[6] = this:GetText()
+		for _,frame in pairs(LunaUF.Units.frameList) do
+			if frame.unitGroup == "raid" then
+				LunaUF.Units.FullUpdate(frame)
+			end
+		end
+	end)
+	LunaOptionsFrame.pages[page].sixthbuff:SetScript("OnEscapePressed", Exit)
+	LunaOptionsFrame.pages[page].sixthbuff:SetScript("OnEnterPressed", Exit)
+
+	LunaOptionsFrame.pages[page].sixthbuffcolor = CreateColorSelect(LunaOptionsFrame.pages[page], LunaUF.db.profile.units.raid.squares.buffs.colors[6])
+	LunaOptionsFrame.pages[page].sixthbuffcolor:SetPoint("LEFT", LunaOptionsFrame.pages[page].sixthbuff, "RIGHT", 10, 0)
+	LunaOptionsFrame.pages[page].sixthbuffcolor:SetHeight(19)
+	LunaOptionsFrame.pages[page].sixthbuffcolor:SetWidth(19)
+	LunaOptionsFrame.pages[page].sixthbuffcolor.text:SetText(L["Buffcolor"])
+
+	LunaOptionsFrame.pages[page].sixthbuffinvert = CreateFrame("CheckButton", "SixthBuffInvert", LunaOptionsFrame.pages[page], "UICheckButtonTemplate")
+	LunaOptionsFrame.pages[page].sixthbuffinvert:SetPoint("LEFT", LunaOptionsFrame.pages[page].sixthbuffcolor, "RIGHT", 70, 0)
+	LunaOptionsFrame.pages[page].sixthbuffinvert:SetHeight(15)
+	LunaOptionsFrame.pages[page].sixthbuffinvert:SetWidth(15)
+	LunaOptionsFrame.pages[page].sixthbuffinvert:SetScript("OnClick", function()
+		LunaUF.db.profile.units.raid.squares.invertsixthbuff = not LunaUF.db.profile.units.raid.squares.invertsixthbuff
+		for _,frame in pairs(LunaUF.Units.frameList) do
+			if frame.unitGroup == "raid" then
+				LunaUF.Units.FullUpdate(frame)
+			end
+		end
+	end)
+	getglobal("SixthBuffInvertText"):SetText(L["Invert display"])
+	
+	
+	
+	
+	
+	
 
 	LunaOptionsFrame.pages[page].debuffheader = LunaOptionsFrame.pages[page]:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
-	LunaOptionsFrame.pages[page].debuffheader:SetPoint("TOPLEFT", LunaOptionsFrame.pages[page].thirdbuff, "BOTTOMLEFT", 0, -10)
+	LunaOptionsFrame.pages[page].debuffheader:SetPoint("TOPLEFT", LunaOptionsFrame.pages[page].sixthbuff, "BOTTOMLEFT", 0, -10)
 	LunaOptionsFrame.pages[page].debuffheader:SetText(L["Debuffs to track"])
 
 	LunaOptionsFrame.pages[page].firstdebuff = CreateFrame("Editbox", "FirstDebuffInput", LunaOptionsFrame.pages[page], "InputBoxTemplate")
@@ -4084,6 +4212,39 @@ function LunaUF:CreateOptionsMenu()
 	LunaOptionsFrame.pages[page].thirddebuffcolor:SetHeight(19)
 	LunaOptionsFrame.pages[page].thirddebuffcolor:SetWidth(19)
 	LunaOptionsFrame.pages[page].thirddebuffcolor.text:SetText(L["Debuffcolor"])
+	
+	
+	
+	
+	
+	
+	
+	LunaOptionsFrame.pages[page].fourthdebuff = CreateFrame("Editbox", "FourthDebuffInput", LunaOptionsFrame.pages[page], "InputBoxTemplate")
+	LunaOptionsFrame.pages[page].fourthdebuff:SetHeight(20)
+	LunaOptionsFrame.pages[page].fourthdebuff:SetWidth(200)
+	LunaOptionsFrame.pages[page].fourthdebuff:SetAutoFocus(nil)
+	LunaOptionsFrame.pages[page].fourthdebuff:SetPoint("TOPLEFT", LunaOptionsFrame.pages[page].thirddebuff, "BOTTOMLEFT", 0, -10)
+	LunaOptionsFrame.pages[page].fourthdebuff:SetScript("OnTextChanged", function()
+		LunaUF.db.profile.units.raid.squares.debuffs.names[4] = string.lower(this:GetText())
+		for _,frame in pairs(LunaUF.Units.frameList) do
+			if frame.unitGroup == "raid" then
+				LunaUF.Units.FullUpdate(frame)
+			end
+		end
+	end)
+	LunaOptionsFrame.pages[page].fourthdebuff:SetScript("OnEscapePressed", Exit)
+	LunaOptionsFrame.pages[page].fourthdebuff:SetScript("OnEnterPressed", Exit)
+
+	LunaOptionsFrame.pages[page].fourthdebuffcolor = CreateColorSelect(LunaOptionsFrame.pages[page], LunaUF.db.profile.units.raid.squares.debuffs.colors[4])
+	LunaOptionsFrame.pages[page].fourthdebuffcolor:SetPoint("LEFT", LunaOptionsFrame.pages[page].fourthdebuff, "RIGHT", 10, 0)
+	LunaOptionsFrame.pages[page].fourthdebuffcolor:SetHeight(19)
+	LunaOptionsFrame.pages[page].fourthdebuffcolor:SetWidth(19)
+	LunaOptionsFrame.pages[page].fourthdebuffcolor.text:SetText(L["Debuffcolor"])
+	
+	
+	
+	
+	
 
 	LunaOptionsFrame.pages[page].raidoptions = LunaOptionsFrame.pages[page]:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
 	LunaOptionsFrame.pages[page].raidoptions:SetPoint("TOPLEFT", LunaOptionsFrame.pages[page].thirddebuff, "BOTTOMLEFT", 0, -30)

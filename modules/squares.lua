@@ -44,7 +44,7 @@ function Squares:OnEnable(frame)
 		frame.squares.trackdebuffs = {}
 		frame.squares.centericons = {}
 		
-		for i = 1, 3 do
+		for i = 1, 6 do
 			frame.squares.buffs[i] = CreateFrame("Frame", nil, frame.squares)
 			frame.squares.buffs[i]:SetBackdrop(LunaUF.constants.backdrop)
 			frame.squares.buffs[i]:SetBackdropColor(0,0,0)
@@ -74,11 +74,16 @@ function Squares:OnEnable(frame)
 		
 		frame.squares.buffs[1]:SetPoint("TOPRIGHT", frame.squares, "TOPRIGHT")
 		frame.squares.buffs[2]:SetPoint("RIGHT", frame.squares.buffs[1], "LEFT")
-		frame.squares.buffs[3]:SetPoint("TOP", frame.squares.buffs[1], "BOTTOM")
+		frame.squares.buffs[3]:SetPoint("RIGHT", frame.squares.buffs[2], "LEFT")
+		frame.squares.buffs[4]:SetPoint("RIGHT", frame.squares.buffs[3], "LEFT")
+		frame.squares.buffs[5]:SetPoint("RIGHT", frame.squares.buffs[4], "LEFT")
+		frame.squares.buffs[6]:SetPoint("RIGHT", frame.squares.buffs[5], "LEFT")
 		
 		frame.squares.debuffs[1]:SetPoint("TOPLEFT", frame.squares, "TOPLEFT")
 		frame.squares.debuffs[2]:SetPoint("LEFT", frame.squares.debuffs[1], "RIGHT")
 		frame.squares.debuffs[3]:SetPoint("TOP", frame.squares.debuffs[1], "BOTTOM")
+		frame.squares.debuffs[4]:SetPoint("TOP", frame.squares.debuffs[1], "BOTTOM")
+
 		
 		frame.squares.trackdebuffs[1]:SetPoint("BOTTOMRIGHT", frame.squares, "BOTTOMRIGHT")
 		frame.squares.trackdebuffs[2]:SetPoint("RIGHT", frame.squares.trackdebuffs[1], "LEFT")
@@ -180,28 +185,33 @@ function Squares:UpdateAuras(frame)
 	end
 	
 	while UnitBuff(frame.unit,i) do
-		ScanTip:ClearLines()
-		ScanTip:SetUnitBuff(frame.unit,i)
-		buffname = LunaScanTipTextLeft1:GetText() or ""
-		if config.hottracker then
-			if buffname == BS["Rejuvenation"] then
-				frame.squares.centericons[1]:Show()
-			elseif buffname == BS["Renew"] then
-				frame.squares.centericons[2]:Show()
-			elseif buffname == BS["Regrowth"] then
-				frame.squares.centericons[3]:Show()
-			end
-		end
-		buffname = string.lower(buffname)
-		for key,buff in pairs(config.buffs.names) do
-			if buff ~= "" and string.find(buffname, string.lower(buff)) then
-				buffs[key] = UnitBuff(frame.unit, i)
-				break
-			end
-		end
-		
-		i = i + 1
-	end
+    ScanTip:ClearLines()
+    ScanTip:SetUnitBuff(frame.unit,i)
+    buffname = LunaScanTipTextLeft1:GetText() or ""
+    
+    if config.hottracker then
+        if buffname == BS["Rejuvenation"] then
+            frame.squares.centericons[1]:Show()
+        elseif buffname == BS["Renew"] then
+            frame.squares.centericons[2]:Show()
+        elseif buffname == BS["Regrowth"] then
+            frame.squares.centericons[3]:Show()
+        end
+    end
+
+    buffname = string.lower(buffname)
+    for key,buff in pairs(config.buffs.names) do
+        -- Using gfind instead of gmatch for Lua 5.0
+        for variation in string.gfind(buff, "[^;]+") do
+            if variation ~= "" and string.find(buffname, string.lower(variation)) then
+                buffs[key] = UnitBuff(frame.unit, i)
+                break
+            end
+        end
+    end
+    
+    i = i + 1
+end
 
 	i = 1
 	for k,v in pairs(config.buffs.names) do
@@ -210,7 +220,10 @@ function Squares:UpdateAuras(frame)
 			if k == 1 and LunaUF.db.profile.units.raid.squares.invertfirstbuff then invert = true end
 			if k == 2 and LunaUF.db.profile.units.raid.squares.invertsecondbuff then invert = true end
 			if k == 3 and LunaUF.db.profile.units.raid.squares.invertthirdbuff then invert = true end
-
+			if k == 4 and LunaUF.db.profile.units.raid.squares.invertfourthbuff then invert = true end
+			if k == 5 and LunaUF.db.profile.units.raid.squares.invertfifthbuff then invert = true end
+			if k == 6 and LunaUF.db.profile.units.raid.squares.invertsixthbuff then invert = true end
+			
 			if invert then
 				if not buffs[k] then
 					if config.buffcolors then
@@ -242,7 +255,7 @@ function Squares:UpdateAuras(frame)
 		buffname = LunaScanTipTextLeft1:GetText() or ""
 
 		texture,_,disptype = UnitDebuff(frame.unit,i,config.owndispdebuffs)
-		if texture and config.enabledebuffs and (not config.dispellabledebuffs or disptype) and num <= 3 then
+		if texture and config.enabledebuffs and (not config.dispellabledebuffs or disptype) and num <= 6 then
 			if config.debuffcolors then
 				if disptype then
 					local r,g,b = unpack(LunaUF.db.profile.magicColors[disptype])
@@ -282,7 +295,7 @@ end
 function Squares:FullUpdate(frame)
 	if not frame.squares then return end
 	local config = LunaUF.db.profile.units.raid.squares
-	for i=1, 3 do
+	for i=1, 6 do
 		frame.squares.buffs[i]:SetHeight(config.outersize)
 		frame.squares.buffs[i]:SetWidth(config.outersize)
 		

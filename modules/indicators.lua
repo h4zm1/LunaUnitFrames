@@ -12,6 +12,7 @@ local Indicators = {
 		["rezz"] = {"Interface\\AddOns\\LunaUnitFrames\\media\\textures\\Raid-Icon-Rez"},
 		["pvprank"] = {"Interface\\PvPRankBadges\\PvPRank01", "PLAYER_PVP_RANK_CHANGED"},
 		["elite"] = {"Interface\\AddOns\\LunaUnitFrames\\media\\textures\\UI-DialogBox-Gold-Dragon"},
+		["elite2"] = {"Interface\\AddOns\\LunaUnitFrames\\media\\textures\\UI-DialogBox-Silver-Dragon"},
 	},
 }
 LunaUF:RegisterModule(Indicators, "indicators", LunaUF.L["Indicators"])
@@ -160,7 +161,7 @@ local function UpdateElite(enabled, indicator, unit, unitGroup)
 	if not enabled then
 		indicator:Hide()
 	else
-		local classification = UnitClassification(unit)
+		texture = "Interface\\AddOns\\LunaUnitFrames\\media\\textures\\UI-DialogBox-Silver-Dragon"
 		local texture
 		if classification == "elite" or classification == "rareelite" or classification == "worldboss" or not LunaUF.db.profile.locked then
 			texture = "Interface\\AddOns\\LunaUnitFrames\\media\\textures\\UI-DialogBox-Gold-Dragon"
