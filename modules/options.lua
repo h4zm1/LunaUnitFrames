@@ -195,7 +195,7 @@ local function CreateIndicatorOptionsFrame(parent, indicators)
 
 		frame[name].sizeslider = CreateFrame("Slider", "SizeSlider"..parent.id..name, frame, "OptionsSliderTemplate")
 		frame[name].sizeslider.config = config
-		frame[name].sizeslider:SetMinMaxValues(1,80)
+		frame[name].sizeslider:SetMinMaxValues(1,180)
 		frame[name].sizeslider:SetValueStep(1)
 		frame[name].sizeslider:SetScript("OnValueChanged", function()
 			local config = this.config
@@ -1168,7 +1168,7 @@ function LunaUF:CreateOptionsMenu()
 
 	UIDropDownMenu_Initialize(LunaOptionsFrame.pages[page].TextureSelect, function()
 		local info={}
-		for k,v in ipairs({"Aluminium","Armory","BantoBar","Bars","Button","Charcoal","Cilo","Dabs","Diagonal","Fifths","Flat","Fourths","Glamour","Glamour2","Glamour3","Glamour4","Glamour5","Glamour6","Glamour7","Glaze","Gloss","Healbot","Luna","Lyfe","Otravi","Perl2","Ruben","Skewed","Smooth","Striped","Wisps"}) do
+		for k,v in ipairs({"pfUI-I","pfUI-V","Aluminium","Armory","BantoBar","Bars","Button","Charcoal","Cilo","Dabs","Diagonal","Fifths","Flat","Fourths","DarkBottom","Round","Glamour3","Glamour4","Glamour5","Glamour6","Glamour7","Glaze","Gloss","Healbot","Luna","Lyfe","Otravi","Perl2","Ruben","Skewed","Smooth","Striped","Wisps"}) do
 			info.text=v
 			info.value=v
 			info.func= function ()

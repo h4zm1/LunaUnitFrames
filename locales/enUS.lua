@@ -132,6 +132,7 @@ local function enUS() return {
 ["leader"] = "Leader",
 ["elite"] = "Elite",
 ["elite2"] = "Elite2",
+["KOS indicator"] = "KOS indicator",
 ["pvp"] = "PvP",
 ["pvprank"] = "PvP rank",
 ["ready"] = "Ready",
