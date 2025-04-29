@@ -161,7 +161,7 @@ local function UpdateElite(enabled, indicator, unit, unitGroup)
 	if not enabled then
 		indicator:Hide()
 	else
-		texture = "Interface\\AddOns\\LunaUnitFrames\\media\\textures\\UI-DialogBox-Silver-Dragon"
+        local classification = UnitClassification(unit)
 		local texture
 		if classification == "elite" or classification == "rareelite" or classification == "worldboss" or not LunaUF.db.profile.locked then
 			texture = "Interface\\AddOns\\LunaUnitFrames\\media\\textures\\UI-DialogBox-Gold-Dragon"
@@ -182,7 +182,24 @@ local function UpdateElite(enabled, indicator, unit, unitGroup)
 		end
 	end
 end
+local function UpdateElite2(enabled, indicator, unit, unitGroup)
+	if not enabled then
+		indicator:Hide()
+	else
+		texture = "Interface\\AddOns\\LunaUnitFrames\\media\\textures\\UI-DialogBox-Silver-Dragon"
+		
 
+		if texture then
+			if LunaUF.db.profile.units[unitGroup].portrait.side == "right" then
+				texture = texture .. "-right"
+			end
+			indicator:SetTexture(texture)
+			indicator:Show()
+		else
+			indicator:Hide()
+		end
+	end
+end
 local function UpdateRezz(enabled, indicator, unit)
 	if not enabled then
 		indicator:Hide()
@@ -476,7 +493,7 @@ function Indicators:FullUpdate(frame)
 	end
 	if frame.indicators.pvprank then UpdatePVPRank(config.pvprank.enabled, frame.indicators.pvprank, frame.unit) end
 	if frame.indicators.elite then UpdateElite(config.elite.enabled, frame.indicators.elite, frame.unit, frame.unitGroup) end
-	if frame.indicators.elite then UpdateKOS(config.elite.kos, frame.indicators.elite, frame.unit, frame.unitGroup) end
+	if frame.indicators.elite2 then UpdateElite2(config.elite2.enabled, frame.indicators.elite2, frame.unit, frame.unitGroup) end
 	if frame.indicators.rezz then UpdateRezz(config.rezz.enabled, frame.indicators.rezz, frame.unit) end
 	if frame.indicators.masterLoot then UpdateMasterLoot(config.masterLoot.enabled, frame.indicators.masterLoot, frame.unit) end
 	if frame.indicators.leader then UpdateLeader(config.leader.enabled, frame.indicators.leader, frame.unit) end
